@@ -15,6 +15,6 @@ if __name__ == "__main__":
     my_data_loader = MaskData()
     X, y = my_data_loader.load_data()
     my_model = MaskOrNotNetwork(X, y)
-    history = my_model.train()
+    history = my_model.train(batch_size=64)
     test_loss, test_accuracy = my_model.test()
     my_model.save(os.path.join(os.getcwd(), "MaskOrNot.h5"))

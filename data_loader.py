@@ -46,6 +46,25 @@ class MaskData:
                 self.y.append(0)
                 del image
             current_negative_dir += 1
-        self.X = np.array(self.X)
-        print('Load {} images.'.format(len(self.X)))
+
+        print('Load {} images. \nPositive: {}\nNegative: {}'
+              .format(len(self.X), self.y.count(1), self.y.count(0)))
+        count_positive = 0
+        count_negative = 0
+        X_balanced = []
+        y_balanced = []
+        balanced_length = min(self.y.count(0), self.y.count(1))
+        for i in range(len(self.y)):
+            if self.y[i] == 1 and count_positive < balanced_length:
+                X_balanced.append(self.X[i])
+                y_balanced.append(self.y[i])
+                count_positive += 1
+            elif self.y[i] == 0 and count_negative < balanced_length:
+                X_balanced.append(self.X[i])
+                y_balanced.append(self.y[i])
+                count_negative += 1
+        self.X = np.array(X_balanced)
+        self.y = y_balanced
+        print('{} images after balanced.\nPositive: {}\nNegative: {}'
+              .format(len(self.X), self.y.count(1), self.y.count(0)))
         return self.X, self.y
